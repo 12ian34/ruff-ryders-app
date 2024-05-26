@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import { Container, TextField, Button, Typography } from '@mui/material';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { error } = await supabase.auth.signIn({ email, password });
     if (!error) {
-      history.push('/scores');
+      navigate('/scores');
     } else {
       alert(error.message);
     }
@@ -50,3 +50,4 @@ function Login() {
 }
 
 export default Login;
+``
