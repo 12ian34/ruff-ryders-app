@@ -38,6 +38,7 @@
     ]
   },
   "devDependencies": {
+    "node": "16.6",
     "tailwindcss": "^3.4.3"
   }
 }
