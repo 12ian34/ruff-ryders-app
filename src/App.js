@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { supabase } from './supabaseClient';
 
 function App() {
+  const [session, setSession] = useState(null);
+
+  supabase.auth.onAuthStateChange((_event, session) => {
+    setSession(session);
+  });
+
+  const signInWithEmail = async () => {
+    const { error } = await supabase.auth.signIn({ email: 'example@example.com', password: 'password' });
+    if (error) console.log('Error: ', error.message);
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.log('Error: ', error.message);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {session ? (
+        <button onClick={signOut}>Sign Out</button>
+      ) : (
+        <button onClick={signInWithEmail}>Sign In</button>
+      )}
     </div>
   );
 }
